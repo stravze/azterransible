@@ -41,6 +41,7 @@ jobs:
     displayName: 'Publish Artifact: drop'
 
 - job: PrepareStorageAccountDEPLOY
+  dependsOn: ReadKeyVault
   steps:
   - task: AzureCLI@1
     displayName: CreateStorageContainer
