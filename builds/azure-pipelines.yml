@@ -21,8 +21,6 @@ jobs:
       keyvaultName: $(keyvaultName)
 
 - job: PrepareArtifacts
-  pool:
-      vmImage: 'Ubuntu-16.04'
   steps:
   - task: CopyFiles@2
     displayName: 'Copy Terraform files to artifacts'
@@ -38,3 +36,13 @@ jobs:
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
+
+- job: InstallSSHkey 
+  pool:
+      vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: InstallSSHkey@0
+    inputs:
+    hostName: 'default'
+    sshPublicKey: '$(SSH_PUB_KEY)'
+    sshKeySecureFile: 'github'
