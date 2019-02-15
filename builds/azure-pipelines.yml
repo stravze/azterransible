@@ -37,6 +37,12 @@ jobs:
       SourceFolder: ansible
       TargetFolder: '$(build.artifactstagingdirectory)/ansible'
 
+  - task: CopyFiles@2
+    displayName: 'Copy script files to artifacts'
+    inputs:
+      SourceFolder: scripts
+      TargetFolder: '$(build.artifactstagingdirectory)/scripts'
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
 
