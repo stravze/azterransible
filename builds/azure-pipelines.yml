@@ -15,7 +15,7 @@ jobs:
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
-  - template: steps/keyvault-read.yaml
+  - template: ../steps/keyvault-read.yaml
     parameters:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
