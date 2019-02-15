@@ -48,14 +48,14 @@ jobs:
   - task: AzureCLI@1
     displayName: CreateStorageContainer
     inputs:
-      azureSubscription: $(ARM_SUBSCRIPTION_ID)
+      azureSubscription: $(serviceConnection)
       scriptLocation: 'inlineScript'
       inlineScript: 'call az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
   - task: AzurePowerShell@3
     displayName: GetStorageKey
     inputs:
-      azureSubscription: $(ARM_SUBSCRIPTION_ID)
+      azureSubscription: $(serviceConnection)
       scriptType: 'FilePath'
       scriptPath: ../scripts/getKey.ps1
       errorActionPreference: 'stop'
