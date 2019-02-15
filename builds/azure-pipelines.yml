@@ -28,19 +28,19 @@ jobs:
     displayName: 'Copy Terraform files to artifacts'
     inputs:
       SourceFolder: terraform
-      TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/terraform'
 
   - task: CopyFiles@2
     displayName: 'Copy Ansible files to artifacts'
     inputs:
       SourceFolder: ansible
-      TargetFolder: '$(build.artifactstagingdirectory)/ansible'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/ansible'
 
   - task: CopyFiles@2
     displayName: 'Copy script files to artifacts'
     inputs:
       SourceFolder: scripts
-      TargetFolder: '$(build.artifactstagingdirectory)/scripts'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/scripts'
 
   - task: PublishBuildArtifacts@1
     inputs:
@@ -71,7 +71,7 @@ jobs:
     inputs:
       azureSubscription: $(serviceConnection)
       scriptType: 'FilePath'
-      scriptPath: $(System.ArtifactsDirectory)/drop/scripts/getKey.ps1
+      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
       errorActionPreference: 'stop'
       azurePowerShellVersion: 'latestVersion'
 
