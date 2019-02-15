@@ -6,25 +6,36 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+variables:
+  keyvaultName: 'rdo-runbook'
+  serviceConnection: 'sp-conn'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
+- job: ReadKeyVault
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: ../steps/keyvault-read.yaml
+    parameters:
+      serviceConnection: $(serviceConnection)
+      keyvaultName: $(keyvaultName)
 
-- task: CopyFiles@2
-  displayName: 'Copy Terraform files to artifacts'
-  inputs:
-    SourceFolder: terraform
-    TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+jobs:
+- job: Prepare Artifacts
+  pool:
+      vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: CopyFiles@2
+    displayName: 'Copy Terraform files to artifacts'
+    inputs:
+      SourceFolder: terraform
+      TargetFolder: '$(build.artifactstagingdirectory)/terraform'
 
-- task: CopyFiles@2
-  displayName: 'Copy Ansible files to artifacts'
-  inputs:
-    SourceFolder: ansible
-    TargetFolder: '$(build.artifactstagingdirectory)/ansible'
+  - task: CopyFiles@2
+    displayName: 'Copy Ansible files to artifacts'
+    inputs:
+      SourceFolder: ansible
+      TargetFolder: '$(build.artifactstagingdirectory)/ansible'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
