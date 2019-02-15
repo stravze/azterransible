@@ -64,14 +64,14 @@ jobs:
     inputs:
       azureSubscription: $(serviceConnection)
       scriptLocation: 'scriptPath' 
-      scriptPath: ../scripts/createContainer.sh
+      scriptPath: $(System.ArtifactsDirectory)/scripts/createContainer.sh
 
   - task: AzurePowerShell@3
     displayName: GetStorageKey
     inputs:
       azureSubscription: $(serviceConnection)
       scriptType: 'FilePath'
-      scriptPath: ../scripts/getKey.ps1
+      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
       errorActionPreference: 'stop'
       azurePowerShellVersion: 'latestVersion'
 
