@@ -58,7 +58,6 @@ jobs:
       errorActionPreference: 'stop'
       azurePowerShellVersion: 'latestVersion'
 
- 
 # - job: InstallSSHkey 
 #   pool:
 #       vmImage: 'Ubuntu-16.04'
@@ -72,11 +71,3 @@ jobs:
 #       hostName: 'default'
 #       sshPublicKey: '$(SSH_PUB_KEY)'
 #       sshKeySecureFile: 'github'
-
-  # - task: ShellScript@2
-  #   inputs:
-  #     scriptPath:
-  #     #args: '' # Optional
-  #     #disableAutoCwd: false # Optional
-  #     #cwd: '' # Optional
-  #     #failOnStandardError: false
