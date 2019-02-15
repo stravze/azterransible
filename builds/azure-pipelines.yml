@@ -59,21 +59,26 @@ jobs:
   variables: 
     ARM_SUBSCRIPTION_ID: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]'
   steps:
-  - task: AzureCLI@1
-    displayName: CreateStorageContainer
+  - task: Bash@3
     inputs:
-      azureSubscription: $(serviceConnection)
-      scriptLocation: 'InlineScript' 
-      InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
+    targetType: 'inline'
+    script: 'find -type f $(System.ArtifactsDirectory) | echo'
 
-  - task: AzurePowerShell@3
-    displayName: GetStorageKey
-    inputs:
-      azureSubscription: $(serviceConnection)
-      scriptType: 'FilePath'
-      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
-      errorActionPreference: 'stop'
-      azurePowerShellVersion: 'latestVersion'
+  # - task: AzureCLI@1
+  #   displayName: CreateStorageContainer
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     scriptLocation: 'InlineScript' 
+  #     InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
+
+  # - task: AzurePowerShell@3
+  #   displayName: GetStorageKey
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     scriptType: 'FilePath'
+  #     scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
+  #     errorActionPreference: 'stop'
+  #     azurePowerShellVersion: 'latestVersion'
 
 # - job: InstallSSHkey 
 #   pool:
