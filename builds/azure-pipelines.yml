@@ -71,7 +71,7 @@ jobs:
     inputs:
       azureSubscription: $(serviceConnection)
       scriptType: 'FilePath'
-      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
+      scriptPath: $(System.ArtifactsDirectory)/drop/scripts/getKey.ps1
       errorActionPreference: 'stop'
       azurePowerShellVersion: 'latestVersion'
 
