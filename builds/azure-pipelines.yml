@@ -43,5 +43,6 @@ jobs:
   steps:
   - task: InstallSSHkey@0
     inputs:
-    sshPublicKey: '$(SSH_PUB_KEY)'
-    sshKeySecureFile: 'github'
+      hostName: 'default'
+      sshPublicKey: '$(SSH_PUB_KEY)'
+      sshKeySecureFile: 'github'
