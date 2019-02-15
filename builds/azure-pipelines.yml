@@ -12,7 +12,6 @@ variables:
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'terraformstorage0ec0e102'
 
-
 jobs:
 - job: ReadKeyVault
   pool:
@@ -23,28 +22,28 @@ jobs:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
 
-- job: PrepareArtifacts
-  steps:
-  - task: CopyFiles@2
-    displayName: 'Copy Terraform files to artifacts'
-    inputs:
-      SourceFolder: terraform
-      TargetFolder: '$(build.artifactstagingdirectory)/terraform'
+# - job: PrepareArtifacts
+#   steps:
+#   - task: CopyFiles@2
+#     displayName: 'Copy Terraform files to artifacts'
+#     inputs:
+#       SourceFolder: terraform
+#       TargetFolder: '$(build.artifactstagingdirectory)/terraform'
 
-  - task: CopyFiles@2
-    displayName: 'Copy Ansible files to artifacts'
-    inputs:
-      SourceFolder: ansible
-      TargetFolder: '$(build.artifactstagingdirectory)/ansible'
+#   - task: CopyFiles@2
+#     displayName: 'Copy Ansible files to artifacts'
+#     inputs:
+#       SourceFolder: ansible
+#       TargetFolder: '$(build.artifactstagingdirectory)/ansible'
 
-  - task: CopyFiles@2
-    displayName: 'Copy script files to artifacts'
-    inputs:
-      SourceFolder: scripts
-      TargetFolder: '$(build.artifactstagingdirectory)/scripts'
+#   - task: CopyFiles@2
+#     displayName: 'Copy script files to artifacts'
+#     inputs:
+#       SourceFolder: scripts
+#       TargetFolder: '$(build.artifactstagingdirectory)/scripts'
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+#   - task: PublishBuildArtifacts@1
+#     displayName: 'Publish Artifact: drop'
 
 - job: PrepareStorageAccountDEPLOY
   dependsOn: ReadKeyVault
