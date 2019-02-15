@@ -63,8 +63,8 @@ jobs:
     displayName: CreateStorageContainer
     inputs:
       azureSubscription: $(serviceConnection)
-      scriptLocation: 'scriptPath' 
-      scriptPath: $(System.ArtifactsDirectory)/scripts/createContainer.sh
+      scriptLocation: 'createContainer.sh' 
+      scriptPath: $(System.ArtifactsDirectory)/scripts
 
   - task: AzurePowerShell@3
     displayName: GetStorageKey
