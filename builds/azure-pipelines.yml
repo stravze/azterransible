@@ -63,8 +63,8 @@ jobs:
     displayName: CreateStorageContainer
     inputs:
       azureSubscription: $(serviceConnection)
-      scriptLocation: 'scriptPath' 
-      scriptPath: ./scripts/createContainer.sh
+      scriptLocation: 'InlineScript' 
+      InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
   - task: AzurePowerShell@3
     displayName: GetStorageKey
