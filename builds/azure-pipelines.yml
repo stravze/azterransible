@@ -43,7 +43,9 @@ jobs:
       TargetFolder: '$(build.artifactstagingdirectory)/scripts'
 
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop
 
   - task: DownloadBuildArtifacts@0
     inputs:
