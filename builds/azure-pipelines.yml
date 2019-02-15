@@ -41,6 +41,10 @@ jobs:
   pool:
       vmImage: 'Ubuntu-16.04'
   steps:
+  - task: DownloadSecureFile@1
+  inputs:
+    secureFile: 'github'
+
   - task: InstallSSHkey@0
     inputs:
       hostName: 'default'
