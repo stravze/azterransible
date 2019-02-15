@@ -1,0 +1,18 @@
+  parameters:
+    serviceConnection: ''
+    keyvaultName: ''
+
+  steps:
+  - task: AzureKeyVault@1
+    displayName: 'Get Secrets from Keyvault'
+    inputs:
+      azureSubscription: ${{ parameters.serviceConnection }}
+      keyVaultName: ${{ parameters.keyvaultName }}
+      secretsFilter: 'ARM-CLIENT-ID,ARM-CLIENT-SECRET,ARM-SUBSCRIPTION-ID, ARM-TENANT-ID'
+  - script: |
+      echo "##vso[task.setvariable variable=ARM_CLIENT_ID;isOutput=true]$(ARM-CLIENT-ID)"
+      echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;isOutput=true]$(ARM-CLIENT-SECRET)"
+      echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID;isOutput=true]$(ARM-SUBSCRIPTION-ID)"      
+      echo "##vso[task.setvariable variable=ARM_TENANT_ID;isOutput=true]$(ARM-TENANT-ID)"
+    displayName: 'Export Keyvault Variables'
+    name: exportKeyVault
