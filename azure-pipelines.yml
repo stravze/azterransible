@@ -20,7 +20,7 @@ jobs:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
 
-- job: Prepare Artifacts
+- job: PrepareArtifacts
   pool:
       vmImage: 'Ubuntu-16.04'
   steps:
