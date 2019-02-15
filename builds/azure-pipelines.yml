@@ -9,6 +9,9 @@ trigger:
 variables:
   keyvaultName: 'rdo-runbook'
   serviceConnection: 'sp-conn'
+  terraformstoragerg: 'rdo-perftest-poc'
+  terraformstorageaccount: 'terraformstorage0ec0e102'
+
 
 jobs:
 - job: ReadKeyVault
@@ -37,16 +40,43 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
 
-- job: InstallSSHkey 
-  pool:
-      vmImage: 'Ubuntu-16.04'
+- job: PrepareStorageAccountDEPLOY
   steps:
-  - task: DownloadSecureFile@1
+  - task: AzureCLI@1
+    displayName: CreateStorageContainer
     inputs:
-      secureFile: 'github'
+      azureSubscription: '$(ARM_SUBSCRIPTION_ID)'
+      scriptLocation: 'inlineScript'
+      inlineScript: 'call az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
-  - task: InstallSSHkey@0
+  - task: AzurePowerShell@4
+    displayName: GetStorageKey
     inputs:
-      hostName: 'default'
-      sshPublicKey: '$(SSH_PUB_KEY)'
-      sshKeySecureFile: 'github'
+      azureSubscription: '$(ARM_SUBSCRIPTION_ID)'
+      scriptType: 'FilePath'
+      scriptPath: ../scripts/getKey.ps1
+      errorActionPreference: 'stop'
+      azurePowerShellVersion: 'latestVersion'
+
+ 
+# - job: InstallSSHkey 
+#   pool:
+#       vmImage: 'Ubuntu-16.04'
+#   steps:
+#   - task: DownloadSecureFile@1
+#     inputs:
+#       secureFile: 'github'
+
+#   - task: InstallSSHkey@0
+#     inputs:
+#       hostName: 'default'
+#       sshPublicKey: '$(SSH_PUB_KEY)'
+#       sshKeySecureFile: 'github'
+
+  # - task: ShellScript@2
+  #   inputs:
+  #     scriptPath:
+  #     #args: '' # Optional
+  #     #disableAutoCwd: false # Optional
+  #     #cwd: '' # Optional
+  #     #failOnStandardError: false
