@@ -25,4 +25,6 @@ steps:
     SourceFolder: ansible
     TargetFolder: '$(build.artifactstagingdirectory)/ansible'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
 
