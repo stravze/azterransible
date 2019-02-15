@@ -1,0 +1,6 @@
+test_user: bind
+test_group: bind
+gatling_url: "https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/"
+gatling_ver: "3.0.2"
+gatling_zip: "gatling-charts-highcharts-bundle-"
+gatling_dir: "/opt/gatling"

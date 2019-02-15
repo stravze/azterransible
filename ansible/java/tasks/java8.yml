@@ -1,0 +1,28 @@
+- name: Add repo to sources list
+  apt_repository: 
+    repo: 'ppa:webupd8team/java' 
+    state: present
+    update_cache: yes
+
+- name: bypass the Oracle License File prompt
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+
+- name: Install openjdk-8-jdk
+  apt: 
+    pkg: openjdk-8-jdk
+    state: latest
+
+- name: Install openjdk-8-jre
+  apt: 
+    pkg: openjdk-8-jre
+    state: latest
+
+- name: print JAVA_HOME
+  command: echo $JAVA_HOME
+  register: JAVA_HOME
+
+- name: Remove repo
+  apt_repository: repo='ppa:webupd8team/java' state=absent
+
+- debug: 
+    msg: "{{ JAVA_HOME.stdout }}"

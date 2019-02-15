@@ -1,0 +1,16 @@
+---
+- include: java8.yml
+  tags:
+    - java8
+
+- include: java10.yml
+  tags:
+    - java10
+
+- include: gatling.yml
+  tags:
+    - gatling
+
+- include: other.yml
+  tags:
+    - other

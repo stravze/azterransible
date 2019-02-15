@@ -1,0 +1,23 @@
+- name: Create Gatling dir
+  file:
+    path: "{{ gatling_dir }}"
+    state: directory
+    owner: "{{ test_user }}"
+    group: "{{ test_group }}"
+    mode: 0755
+
+- name: Download Gatling zip
+  get_url: 
+    url: "{{ gatling_url }}{{ gatling_ver }}/{{ gatling_zip }}{{ gatling_ver }}-bundle.zip" 
+    dest: "{{ gatling_dir }}"
+
+- name: Extract Gatling
+  unarchive: 
+    copy: no 
+    src: "{{ gatling_dir }}/{{ gatling_zip }}{{ gatling_ver }}-bundle.zip"
+    dest: "{{ gatling_dir }}"
+
+- name: Remove Gatling zip
+  file:
+    path: "{{ gatling_dir }}/{{ gatling_zip }}{{ gatling_ver }}-bundle.zip"
+    state: absent
