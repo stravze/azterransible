@@ -68,10 +68,10 @@ jobs:
 
   - task: AzureCLI@1
   - script: echo my variable is $(terraformstorageaccount)
-    displayName: CreateStorageContainer
+    displayName: GetContainerKey
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstoragerg), $(terraformstorageaccount)
+      arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/getKey.sh
 
