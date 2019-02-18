@@ -71,12 +71,12 @@ jobs:
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/createContainer.sh
 
-  # - task: AzureCLI@1
-  #   displayName: CreateStorageContainer
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     scriptLocation: 'ScriptPath' 
-  #     scriptPath: ../scripts/getKey.sh
+  - task: AzureCLI@1
+    displayName: CreateStorageContainer
+    inputs:
+      azureSubscription: $(serviceConnection)
+      scriptLocation: 'ScriptPath' 
+      scriptPath: scripts/getKey.sh
 
 # - job: InstallSSHkey 
 #   pool:
