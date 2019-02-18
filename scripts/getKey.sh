@@ -4,4 +4,4 @@ key=$(az storage account keys list \
     --account-name $(terraformstorageaccount) \
     --query "[0].value" | tr -d '"')
 
-echo "##vso[task.setvariable variable=storagekey]$key"
+echo "##vso[task.setvariable variable=storagekey;isOutput=true]$key"
