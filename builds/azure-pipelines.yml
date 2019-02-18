@@ -80,4 +80,4 @@ jobs:
     inputs:
       hostName: 'default'
       sshPublicKey: $(SSH_PUB_KEY)
-      sshKeySecureFile: $DOWNLOADSECUREFILE_SECUREFILEPATH
+      sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
