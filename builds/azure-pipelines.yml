@@ -74,29 +74,31 @@ jobs:
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/getKey.sh
 
-# - job: InstallSSHkey 
-#   pool:
-#       vmImage: 'Ubuntu-16.04'
-#   dependsOn: ReadKeyVault
-#   variables:
-#     SSH_PUB_KEY: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
-#   steps:
-#   - task: DownloadSecureFile@1
-#     inputs:
-#       secureFile: 'azure'
+- job: InstallSSHkey 
+  pool:
+      vmImage: 'Ubuntu-16.04'
+  dependsOn: ReadKeyVault
+  variables:
+    SSH_PUB_KEY: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
+  steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'azure'
 
-#   - task: InstallSSHkey@0
-#     inputs:
-#       hostName: 'default'
-#       sshPublicKey: $(SSH_PUB_KEY)
-#       sshKeySecureFile: 'azure'
+  - task: InstallSSHkey@0
+    inputs:
+      hostName: 'default'
+      sshPublicKey: $(SSH_PUB_KEY)
+      sshKeySecureFile: 'azure'
 
-# - job: Terraform
-#   steps:
-#   - task: ShellScript@2
-#     displayName: 'Initialise Terraform'
-#     inputs:
-#       scriptPath: scripts/init.sh
+- job: Terraform
+  steps:
+  - task: AzureCLI@1
+    displayName: InitialiseTerraform
+    inputs:
+      arguments: '$(terraformstorageaccount) $(storagekey)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
