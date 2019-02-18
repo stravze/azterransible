@@ -21,7 +21,6 @@ jobs:
     parameters:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
-  - bash: echo $(SSH_PUB_KEY)
 
 # - job: PrepareArtifacts
 #   steps:
@@ -69,16 +68,16 @@ jobs:
   #     scriptLocation: 'ScriptPath' 
   #     scriptPath: ../scripts/getKey.sh
 
-# - job: InstallSSHkey 
-#   pool:
-#       vmImage: 'Ubuntu-16.04'
-#   steps:
-#   - task: DownloadSecureFile@1
-#     inputs:
-#       secureFile: 'azure'
+- job: InstallSSHkey 
+  pool:
+      vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'azure'
 
-#   - task: InstallSSHkey@0
-#     inputs:
-#       hostName: 'default'
-#       sshPublicKey: '$(SSH_PUB_KEY)'
-#       sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
+  - task: InstallSSHkey@0
+    inputs:
+      hostName: 'default'
+      sshPublicKey: $(SSH_PUB_KEY)
+      sshKeySecureFile: $DOWNLOADSECUREFILE_SECUREFILEPATH
