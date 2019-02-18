@@ -68,15 +68,6 @@ jobs:
       scriptLocation: 'ScriptPath' 
       scriptPath: ../scripts/getKey.sh
 
-  - task: AzurePowerShell@3
-    displayName: GetStorageKey
-    inputs:
-      azureSubscription: $(serviceConnection)
-      scriptType: 'FilePath'
-      scriptPath: ../scripts/getKey.sh
-      errorActionPreference: 'stop'
-      azurePowerShellVersion: 'latestVersion'
-
 - job: InstallSSHkey 
   pool:
       vmImage: 'Ubuntu-16.04'
