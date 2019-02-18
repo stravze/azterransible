@@ -1,6 +1,6 @@
 #!/bin/bash
 echo hello rg $terraformstoragerg
-ecoh *******************
+echo *******************
 STORAGEACCT=$(az storage account create \
     --resource-group $(terraformstoragerg)" 
     --name "rdoperftesttf$RANDOM" \
