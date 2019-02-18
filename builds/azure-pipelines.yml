@@ -71,6 +71,8 @@ jobs:
 - job: InstallSSHkey 
   pool:
       vmImage: 'Ubuntu-16.04'
+  variables:
+    SSH_PUB_KEY: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
   steps:
   - task: DownloadSecureFile@1
     inputs:
@@ -80,4 +82,4 @@ jobs:
     inputs:
       hostName: 'default'
       sshPublicKey: $(SSH_PUB_KEY)
-      sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
+      sshKeySecureFile: 'azure'
