@@ -66,21 +66,21 @@ jobs:
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/createContainer.sh
 
-  - task: AzureCLI@1
-    displayName: GetContainerKey
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
-      scriptLocation: 'scriptPath' 
-      scriptPath: scripts/getKey.sh
-
-  - task: AzureCLI@1
-    displayName: InitialiseTerraform
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: '$(terraformstorageaccount) $(storagekey)'
-      scriptLocation: 'scriptPath'
-      scriptPath: scripts/init.sh
+  # - task: AzureCLI@1
+  #   displayName: GetContainerKey
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
+  #     scriptLocation: 'scriptPath' 
+  #     scriptPath: scripts/getKey.sh
+  - script: echo $(terraformstorageaccount) $(storagekey)
+  # - task: AzureCLI@1
+  #   displayName: InitialiseTerraform
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: '$(terraformstorageaccount) $(storagekey)'
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/init.sh
 
 # - job: InstallSSHkey 
 #   pool:
