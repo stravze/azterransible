@@ -76,8 +76,8 @@ jobs:
     inputs:
       secureFile: 'azure'
 
-  # - task: InstallSSHkey@0
-  #   inputs:
-  #     hostName: 'default'
-  #     sshPublicKey: '$(SSH_PUB_KEY)'
-  #     sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
+  - task: InstallSSHkey@0
+    inputs:
+      hostName: 'default'
+      sshPublicKey: '$(SSH_PUB_KEY)'
+      sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
