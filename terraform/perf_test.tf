@@ -8,20 +8,20 @@ variable "perf_test_vm_count" {
     default = 1
 }
 variable "username" {
-  default = "__username__"
+  default = "username"
 }
 variable "password" {
-  default = "__password__"
+  default = "password"
 }
 
 
 terraform {
   required_version = ">= 0.11" 
   backend "azurerm" {
-  storage_account_name = "__terraformstorageaccount__"
+  storage_account_name = "terraformstorageaccount"
     container_name       = "terraform"
     key                  = "terraform.tfstate"
-	access_key  ="__storagekey__"
+	access_key  ="storagekey"
   }
 }
 
