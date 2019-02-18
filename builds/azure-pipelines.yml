@@ -66,8 +66,10 @@ jobs:
     displayName: CreateStorageContainer
     inputs:
       azureSubscription: $(serviceConnection)
+      arguments: $(terraformstoragerg)
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/createContainer.sh
+
 
   # - task: AzureCLI@1
   #   displayName: CreateStorageContainer
