@@ -61,6 +61,7 @@ jobs:
 
   steps:
   - script: echo "##vso[task.setvariable variable=terraformstoragerg;isOutput=true]$(terraformstoragerg)"
+  - script: echo my variable is $(terraformstoragerg)
   - task: AzureCLI@1
     displayName: CreateStorageContainer
     inputs:
