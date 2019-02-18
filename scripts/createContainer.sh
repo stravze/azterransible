@@ -1,5 +1,5 @@
 #!/bin/bash
-echo hello rg $(terraformstoragerg)
+echo hello rg $terraformstoragerg
 ecoh *******************
 STORAGEACCT=$(az storage account create \
     --resource-group $(terraformstoragerg)" 
