@@ -80,4 +80,4 @@ jobs:
     inputs:
       hostName: 'default'
       sshPublicKey: '$(SSH_PUB_KEY)'
-      sshKeySecureFile: 'azure'
+      sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
