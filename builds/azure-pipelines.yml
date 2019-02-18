@@ -64,7 +64,7 @@ jobs:
     displayName: CreateStorageContainer
     inputs:
       azureSubscription: $(serviceConnection)
-      scriptLocation: 'ScriptPath' 
+      scriptLocation: 'scriptPath' 
       scriptPath: ../scripts/createContainer.sh
 
   # - task: AzureCLI@1
