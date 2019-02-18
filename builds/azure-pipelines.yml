@@ -61,20 +61,20 @@ jobs:
     name: setResourceGroup
 
   - task: AzureCLI@1
-    displayName: CreateStorageContainer
+    displayName: CreateContainer
     inputs:
       azureSubscription: $(serviceConnection)
       arguments: $(terraformstoragerg)
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/createContainer.sh
 
-  - task: AzureCLI@1
-    displayName: GetContainerKey
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
-      scriptLocation: 'scriptPath' 
-      scriptPath: scripts/getKey.sh
+  # - task: AzureCLI@1
+  #   displayName: GetContainerKey
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
+  #     scriptLocation: 'scriptPath' 
+  #     scriptPath: scripts/getKey.sh
 
 # - job: InstallSSHkey 
 #   pool:
@@ -99,8 +99,8 @@ jobs:
     vmImage: 'ubuntu-16.04'
   variables:
     terraformstoragerg: $[dependencies.PrepareStorageAccount.outputs['setResourceGroup.terraformstoragerg']]
-    terraformstorageaccount: $[dependencies.PrepareStorageAccount.outputs['CreateStorageContainer.terraformstorageaccount']]
-    storagekey: $[dependencies.PrepareStorageAccount.outputs['GetContainerKey.storagekey']]
+    terraformstorageaccount: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.terraformstorageaccount']]
+    storagekey: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.storagekey']]
 
   steps:
   - script: echo $(terraformstoragerg) $(terraformstorageaccount) $(storagekey)
