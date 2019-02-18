@@ -10,7 +10,7 @@ variables:
   keyvaultName: 'rdo-runbook'
   serviceConnection: 'sp-conn'
   terraformstoragerg: 'rdo-perftest-poc'
-  terraformstorageaccount: 'terraformstorage0ec0e102'
+  terraformstorageaccount: 'rdoperftesttf'
 
 jobs:
 - job: ReadKeyVault
@@ -22,60 +22,53 @@ jobs:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
 
-- job: PrepareArtifacts
-  steps:
-  - task: CopyFiles@2
-    displayName: 'Copy Terraform files to artifacts'
+# - job: PrepareArtifacts
+#   steps:
+#   - task: CopyFiles@2
+#     displayName: 'Copy Terraform files to artifacts'
+#     inputs:
+#       SourceFolder: terraform
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/terraform'
+
+#   - task: CopyFiles@2
+#     displayName: 'Copy Ansible files to artifacts'
+#     inputs:
+#       SourceFolder: ansible
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/ansible'
+
+#   - task: CopyFiles@2
+#     displayName: 'Copy script files to artifacts'
+#     inputs:
+#       SourceFolder: scripts
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/scripts'
+
+#   - task: PublishBuildArtifacts@1
+#     inputs:
+#       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#       artifactName: drop
+
+#   - task: DownloadBuildArtifacts@0
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'drop'
+#       downloadPath: '$(System.ArtifactsDirectory)'
+
+  - task: AzureCLI@1
+    displayName: CreateStorageContainer
     inputs:
-      SourceFolder: terraform
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/terraform'
+      azureSubscription: $(serviceConnection)
+      scriptLocation: 'InlineScript' 
+      InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
-  - task: CopyFiles@2
-    displayName: 'Copy Ansible files to artifacts'
+  - task: AzurePowerShell@3
+    displayName: GetStorageKey
     inputs:
-      SourceFolder: ansible
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/ansible'
-
-  - task: CopyFiles@2
-    displayName: 'Copy script files to artifacts'
-    inputs:
-      SourceFolder: scripts
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/scripts'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: drop
-
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'drop'
-      downloadPath: '$(System.ArtifactsDirectory)'
-
-- job: PrepareStorageAccountDEPLOY
-  dependsOn: ReadKeyVault
-  variables: 
-    ARM_SUBSCRIPTION_ID: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]'
-  steps:
-  - bash: 'find $(System.ArtifactsDirectory) -type f | echo'
-
-  # - task: AzureCLI@1
-  #   displayName: CreateStorageContainer
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     scriptLocation: 'InlineScript' 
-  #     InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
-
-  # - task: AzurePowerShell@3
-  #   displayName: GetStorageKey
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     scriptType: 'FilePath'
-  #     scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
-  #     errorActionPreference: 'stop'
-  #     azurePowerShellVersion: 'latestVersion'
+      azureSubscription: $(serviceConnection)
+      scriptType: 'FilePath'
+      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
+      errorActionPreference: 'stop'
+      azurePowerShellVersion: 'latestVersion'
 
 # - job: InstallSSHkey 
 #   pool:
