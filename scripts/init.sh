@@ -5,6 +5,5 @@ cd ../terraform
 terraform init \
     -backend-config="storage_account_name=$1" \
     -backend-config="container_name=terraform" \
-    -backend-config="key=$2/terraform.tfstate" \
-    -backend-config="subscription_id=$3"
+    -backend-config="key=$2/terraform.tfstate"
     
