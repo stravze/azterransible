@@ -61,25 +61,32 @@ jobs:
       scriptLocation: 'InlineScript' 
       InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
+  - task: AzureCLI@1
+    displayName: CreateStorageContainer
+    inputs:
+      azureSubscription: $(serviceConnection)
+      scriptLocation: 'ScriptPath' 
+      scriptPath: ../scripts/getKey.sh
+
   - task: AzurePowerShell@3
     displayName: GetStorageKey
     inputs:
       azureSubscription: $(serviceConnection)
       scriptType: 'FilePath'
-      scriptPath: $(System.ArtifactsDirectory)/scripts/getKey.ps1
+      scriptPath: ../scripts/getKey.sh
       errorActionPreference: 'stop'
       azurePowerShellVersion: 'latestVersion'
 
-# - job: InstallSSHkey 
-#   pool:
-#       vmImage: 'Ubuntu-16.04'
-#   steps:
-#   - task: DownloadSecureFile@1
-#     inputs:
-#       secureFile: 'github'
+- job: InstallSSHkey 
+  pool:
+      vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: 'github'
 
-#   - task: InstallSSHkey@0
-#     inputs:
-#       hostName: 'default'
-#       sshPublicKey: '$(SSH_PUB_KEY)'
-#       sshKeySecureFile: 'github'
+  - task: InstallSSHkey@0
+    inputs:
+      hostName: 'default'
+      sshPublicKey: '$(SSH_PUB_KEY)'
+      sshKeySecureFile: '$DOWNLOADSECUREFILE_SECUREFILEPATH'
