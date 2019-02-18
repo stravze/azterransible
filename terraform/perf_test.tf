@@ -17,12 +17,7 @@ variable "password" {
 
 terraform {
   required_version = ">= 0.11" 
-  backend "azurerm" {
-  storage_account_name = "terraformstorageaccount"
-    container_name       = "terraform"
-    key                  = "terraform.tfstate"
-	access_key  ="storagekey"
-  }
+  backend "azurerm" {}
 }
 
 data "azurerm_resource_group" "perf_test_rg" {
