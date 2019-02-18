@@ -58,13 +58,11 @@ jobs:
 
   steps:
   - script: echo "##vso[task.setvariable variable=terraformstoragerg;isOutput=true]$(terraformstoragerg)"
-  - task: AzureCLI@1
+  - task: ShellScript@2
     displayName: CreateStorageContainer
     inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: $(terraformstoragerg)
-      scriptLocation: 'scriptPath' 
       scriptPath: scripts/createContainer.sh
+      args: $(terraformstoragerg)
 
   # - task: AzureCLI@1
   #   displayName: GetContainerKey
@@ -74,14 +72,12 @@ jobs:
   #     scriptLocation: 'scriptPath' 
   #     scriptPath: scripts/getKey.sh
 
-  - task: AzureCLI@1
+  - task: ShellScript@2
     displayName: InitialiseTerraform
     inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey)
-      scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
-
+      args: $(terraformstorageaccount) $(storagekey)
+      
 # - job: InstallSSHkey 
 #   pool:
 #       vmImage: 'Ubuntu-16.04'
