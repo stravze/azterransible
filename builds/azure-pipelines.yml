@@ -74,6 +74,14 @@ jobs:
       scriptLocation: 'scriptPath' 
       scriptPath: scripts/getKey.sh
 
+  - task: AzureCLI@1
+    displayName: InitialiseTerraform
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: '$(terraformstorageaccount) $(storagekey)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
+
 # - job: InstallSSHkey 
 #   pool:
 #       vmImage: 'Ubuntu-16.04'
@@ -94,13 +102,7 @@ jobs:
 - job: Terraform
   steps:
   - script: echo storagekey $(storagekey)
-  # - task: AzureCLI@1
-  #   displayName: InitialiseTerraform
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: '$(terraformstorageaccount) $(storagekey)'
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/init.sh
+
 
 
 #   - task: ShellScript@2
