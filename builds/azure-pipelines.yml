@@ -21,7 +21,7 @@ jobs:
     parameters:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
-  - bash: echo $SSH_PUB_KEY
+  - bash: echo $(SSH_PUB_KEY)
 
 # - job: PrepareArtifacts
 #   steps:
