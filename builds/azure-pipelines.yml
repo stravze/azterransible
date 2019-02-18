@@ -59,7 +59,7 @@ jobs:
   variables: 
     ARM_SUBSCRIPTION_ID: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]'
   steps:
-  - bash: 'find -type f $(System.ArtifactsDirectory) | echo'
+  - bash: 'find $(System.ArtifactsDirectory) -type f | echo'
 
   # - task: AzureCLI@1
   #   displayName: CreateStorageContainer
