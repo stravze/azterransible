@@ -6,4 +6,4 @@ STORAGEACCT=$(az storage account create \
     --sku Standard_LRS \
     --query "name" | tr -d '"')
     
-echo "##vso[task.setvariable variable=storagekey;isOutput=true]$STORAGEACCT"
+echo "##vso[task.setvariable variable=terraformstorageaccount;isOutput=true]$STORAGEACCT"
