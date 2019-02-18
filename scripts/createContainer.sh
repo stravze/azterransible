@@ -1,6 +1,6 @@
 #!/bin/bash
 STORAGEACCT=$(az storage account create \
-    --resource-group $terraformstoragerg \
+    --resource-group $1 \
     --name "rdoperftesttf$RANDOM" \
     --location uksouth \
     --sku Standard_LRS | tr -d '"')
