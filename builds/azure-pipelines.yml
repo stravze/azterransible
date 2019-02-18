@@ -54,23 +54,29 @@ jobs:
 #       artifactName: 'drop'
 #       downloadPath: '$(System.ArtifactsDirectory)'
 
-  # - task: AzureCLI@1
-  #   displayName: CreateStorageContainer
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     scriptLocation: 'InlineScript' 
-  #     InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
+# - job: PrepareStorageAccountDEPLOY
+#   dependsOn: ReadKeyVault
+#   variables: 
+#     ARM_SUBSCRIPTION_ID: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
+#   steps:
+#   - task: AzureCLI@1
+#     displayName: CreateStorageContainer
+#     inputs:
+#       azureSubscription: $(serviceConnection)
+#       scriptLocation: 'InlineScript' 
+#       InlineScript: 'az storage container create --name terraform --account-name $(terraformstorageaccount)'
 
-  # - task: AzureCLI@1
-  #   displayName: CreateStorageContainer
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     scriptLocation: 'ScriptPath' 
-  #     scriptPath: ../scripts/getKey.sh
+#   - task: AzureCLI@1
+#     displayName: CreateStorageContainer
+#     inputs:
+#       azureSubscription: $(serviceConnection)
+#       scriptLocation: 'ScriptPath' 
+#       scriptPath: ../scripts/getKey.sh
 
 - job: InstallSSHkey 
   pool:
       vmImage: 'Ubuntu-16.04'
+  dependsOn: ReadKeyVault
   variables:
     SSH_PUB_KEY: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
   steps:
