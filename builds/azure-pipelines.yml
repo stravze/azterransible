@@ -96,6 +96,7 @@ jobs:
   - task: AzureCLI@1
     displayName: InitialiseTerraform
     inputs:
+      azureSubscription: $(serviceConnection)
       arguments: '$(terraformstorageaccount) $(storagekey)'
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
