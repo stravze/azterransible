@@ -1,8 +1,9 @@
 #!/bin/bash
-echo hello rg $terraformstoragerg
+echo my variable is 1 $terraformstoragerg
+echo my variable is 2 $(terraformstoragerg)
 echo *******************
 STORAGEACCT=$(az storage account create \
-    --resource-group $(terraformstoragerg)" 
+    --resource-group $(terraformstoragerg) \
     --name "rdoperftesttf$RANDOM" \
     --location uksouth \
     --sku Standard_LRS | tr -d '"')
