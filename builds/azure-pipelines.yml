@@ -73,7 +73,9 @@ jobs:
   #     arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
   #     scriptLocation: 'scriptPath' 
   #     scriptPath: scripts/getKey.sh
-  - script: echo $(terraformstorageaccount) $(storagekey)
+  - script: echo $(terraformstorageaccount) 
+  - script: echo $(storagekey)
+  
   # - task: AzureCLI@1
   #   displayName: InitialiseTerraform
   #   inputs:
