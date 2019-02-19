@@ -3,6 +3,7 @@ parameters:
   terraformstoragerg: ''
   location: ''
 
+steps:
 - task: AzureCLI@1
   inputs:
     azureSubscription: ${{ parameters.serviceConnection }}
