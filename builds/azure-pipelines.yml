@@ -23,15 +23,35 @@ jobs:
 #       serviceConnection: $(serviceConnection)
 #       keyvaultName: $(keyvaultName)
 
-- job: PrepareStorageAccount
+# - job: PrepareStorageAccount
+#   pool:
+#     vmImage: 'Ubuntu 16.04'
+#   steps:
+#   - template: ../steps/createStorage.yaml
+#     parameters:
+#       serviceConnection: $(serviceConnection)
+#       terraformstoragerg: $(terraformstoragerg)
+#       terraformstorageaccount: $(terraformstorageaccount)
+
+
+- job: PrepareStorageAccount2
   pool:
     vmImage: 'Ubuntu 16.04'
+  dependsOn: ReadKeyVault
+  variables:
+    tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
+    clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
+    clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
   steps:
-  - template: ../steps/createStorage.yaml
+  - template: ../steps/getStorageKey.yaml
     parameters:
       serviceConnection: $(serviceConnection)
       terraformstoragerg: $(terraformstoragerg)
       terraformstorageaccount: $(terraformstorageaccount)
+      variables:
+        tenantId: $(tenantId)
+        clientId: $(clientId)
+        clientSecret: $(clientSecret)
 
 # - job: InstallSSHkey 
 #   pool:
