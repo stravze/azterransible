@@ -11,9 +11,9 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript:
       STORAGEACCT=$(az storage account create \
-      --resource-group $1 \
+      --resource-group "rdo-perftest-poc" \
       --name "rdoperftesttf$RANDOM" \
-      --location $2 \
+      --location "uksouth" \
       --sku Standard_LRS | tr -d '"')
 
       STORAGECONT=$(az storage container create \
@@ -21,7 +21,7 @@ steps:
       --account-name $STORAGEACCT | tr -d '"')
 
       STORAGEKEY=$(az storage account keys list \
-      --resource-group $1 \
+      --resource-group "rdo-perftest-poc" \
       --account-name $STORAGEACCT \
       --query "[0].value" | tr -d '"')
     
