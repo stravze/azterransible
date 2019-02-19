@@ -1,0 +1,31 @@
+# - job: PrepareArtifacts
+#   steps:
+#   - task: CopyFiles@2
+#     displayName: 'Copy Terraform files to artifacts'
+#     inputs:
+#       SourceFolder: terraform
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/terraform'
+
+#   - task: CopyFiles@2
+#     displayName: 'Copy Ansible files to artifacts'
+#     inputs:
+#       SourceFolder: ansible
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/ansible'
+
+#   - task: CopyFiles@2
+#     displayName: 'Copy script files to artifacts'
+#     inputs:
+#       SourceFolder: scripts
+#       TargetFolder: '$(Build.ArtifactStagingDirectory)/scripts'
+
+#   - task: PublishBuildArtifacts@1
+#     inputs:
+#       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#       artifactName: drop
+
+#   - task: DownloadBuildArtifacts@0
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'drop'
+#       downloadPath: '$(System.ArtifactsDirectory)'
