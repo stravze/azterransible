@@ -1,0 +1,13 @@
+  parameters:
+    securefileName: ''
+  
+  steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: ${{ parameters.securefileName }}
+
+  - task: InstallSSHkey@0
+    inputs:
+      hostName: 'default'
+      sshPublicKey: $(SSH_PUB_KEY)
+      sshKeySecureFile: ${{ parameters.securefileName }}
