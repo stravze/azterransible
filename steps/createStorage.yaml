@@ -1,21 +1,20 @@
 parameters:
   serviceConnection: ''
   terraformstoragerg: ''
+  terraformstorageaccount: ''
   location: ''
 
 steps:
 - task: AzureCLI@1
   inputs:
     azureSubscription: ${{ parameters.serviceConnection }}
-    arguments: ${{ parameters.terraformstoragerg }} ${{ parameters.location }}
+    arguments: ${{ parameters.terraformstorageaccount }} ${{ parameters.terraformstoragerg }} ${{ parameters.location }}
     scriptLocation: 'inlineScript'
     inlineScript: |
-      STORAGEACCT=$(az storage account create --resource-group $1 --name "rdoperftesttf" --location $2 --sku Standard_LRS | tr -d '"')
-      STORAGECONT=$(az storage container create --name "terraform" --account-name $STORAGEACCT | tr -d '"')
-      STORAGEKEY=$(az storage account keys list --resource-group "rdo-perftest-poc" --account-name $STORAGEACCT --query "[0].value" | tr -d '"')
+      az storage container create --name terraform --account-name $1
+      STORAGEKEY=$(az storage account keys list --resource-group $2 --account-name $1 --query "[0].value" | tr -d '"')
 
 - script: |      
-    echo "##vso[task.setvariable variable=terraformstorageaccount;isOutput=true]$STORAGEACCT"
     echo "##vso[task.setvariable variable=storagekey;isOutput=true]$STORAGEKEY"
-  displayName: PrepareStorageAccount
-  name: createStorage
+  displayName: PrepareContainer
+  name: prepareContainer
