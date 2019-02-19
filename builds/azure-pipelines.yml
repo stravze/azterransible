@@ -69,7 +69,7 @@ jobs:
 #         sshPubKey: $(sshPubKey)
 
 - job: Terraform
-  dependsOn: PrepareStorageAccount
+  dependsOn: PrepareStorage
   pool:
     vmImage: 'Ubuntu-16.04'
   variables:
