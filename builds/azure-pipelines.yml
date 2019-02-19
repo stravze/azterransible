@@ -12,7 +12,7 @@ variables:
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'rdoperftesttf'
   location: 'uksouth'
-  securefileName: ''
+  securefileName: 'github'
 
 jobs:
 - job: ReadKeyVault
