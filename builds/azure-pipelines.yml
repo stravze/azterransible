@@ -31,6 +31,7 @@ jobs:
     parameters:
       serviceConnection: $(serviceConnection)
       terraformstoragerg: $(terraformstoragerg)
+      terraformstorageaccount: $(terraformstorageaccount)
       location: $(location)
 
   # - task: AzureCLI@1
