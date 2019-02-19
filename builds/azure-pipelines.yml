@@ -25,7 +25,7 @@ jobs:
 
 - job: PrepareStorageAccount
   pool:
-    vmImage: 'Ubuntu 16.04
+    vmImage: 'Ubuntu 16.04'
   steps:
   - template: ../steps/createStorage.yaml
     parameters:
@@ -33,13 +33,13 @@ jobs:
       terraformstoragerg: $(terraformstoragerg)
       location: $(location)
 
-# - task: AzureCLI@1
-#   displayName: GetContainerKey
-#   inputs:
-#     azureSubscription: $(serviceConnection)
-#     arguments: $(terraformstoragerg) $(terraformstorageaccount)
-#     scriptLocation: 'scriptPath'
-#     scriptPath: scripts/getKey.sh
+  # - task: AzureCLI@1
+  #   displayName: GetContainerKey
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: '$(terraformstoragerg) $(terraformstorageaccount)'
+  #     scriptLocation: 'scriptPath' 
+  #     scriptPath: scripts/getKey.sh
 
 # - job: InstallSSHkey 
 #   pool:
