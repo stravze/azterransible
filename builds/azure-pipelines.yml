@@ -14,14 +14,14 @@ variables:
   securefileName: 'github'
 
 jobs:
-- job: ReadKeyVault
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - template: ../steps/keyvault-read.yaml
-    parameters:
-      serviceConnection: $(serviceConnection)
-      keyvaultName: $(keyvaultName)
+# - job: ReadKeyVault
+#   pool:
+#     vmImage: 'Ubuntu 16.04'
+#   steps:
+#   - template: ../steps/keyvault-read.yaml
+#     parameters:
+#       serviceConnection: $(serviceConnection)
+#       keyvaultName: $(keyvaultName)
 
 - job: PrepareStorageAccount
   pool:
@@ -46,13 +46,15 @@ jobs:
 #       variables:
 #         sshPubKey: $(sshPubKey)
 
-# - job: Terraform
-#   dependsOn: PrepareStorageAccount
-#   pool:
-#     vmImage: 'Ubuntu-16.04'
-#   variables:
-#     storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
-#   steps:
+- job: Terraform
+  dependsOn: PrepareStorageAccount
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+    storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
+  steps:
+  - script: |
+      echo $storagekey $(storagekey)
 #   - task: AzureCLI@1
 #     displayName: InitialiseTerraform
 #     inputs:
