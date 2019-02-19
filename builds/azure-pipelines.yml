@@ -69,21 +69,21 @@ jobs:
 #         sshPubKey: $(sshPubKey)
 
 - job: Terraform
-  dependsOn: PrepareStorage
+  dependsOn:
+  - ReadKeyVault
+  - PrepareStorage
   pool:
     vmImage: 'Ubuntu-16.04'
   variables:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
   steps:
-  - script: |
-      echo $storagekey $(storagekey)
-  # - task: AzureCLI@1
-  #   displayName: InitialiseTerraform
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: '$(terraformstorageaccount) $(storagekey)'
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/init.sh
+  - task: AzureCLI@1
+    displayName: InitialiseTerraform
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: '$(terraformstorageaccount) $(storagekey)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
