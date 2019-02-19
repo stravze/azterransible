@@ -46,7 +46,8 @@ jobs:
   - template: ../steps/installSSHkey.yaml
     parameters:
       securefileName: $(securefileName)
-
+      variables:
+        sshPubKey: $(sshPubKey)
 
 # - job: Terraform
 #   dependsOn: PrepareStorageAccount
