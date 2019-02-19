@@ -42,6 +42,7 @@ jobs:
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
+    subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
   steps:
   - template: ../steps/getStorageKey.yaml
     parameters:
@@ -52,6 +53,7 @@ jobs:
         tenantId: $(tenantId)
         clientId: $(clientId)
         clientSecret: $(clientSecret)
+        subscriptionId: $(subscriptionId)
 
 # - job: InstallSSHkey 
 #   pool:
