@@ -11,6 +11,7 @@ variables:
   serviceConnection: 'sp-conn'
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'rdoperftesttf'
+  location: 'uksouth'
 
 jobs:
 - job: ReadKeyVault
@@ -22,51 +23,15 @@ jobs:
       serviceConnection: $(serviceConnection)
       keyvaultName: $(keyvaultName)
 
-# - job: PrepareArtifacts
-#   steps:
-#   - task: CopyFiles@2
-#     displayName: 'Copy Terraform files to artifacts'
-#     inputs:
-#       SourceFolder: terraform
-#       TargetFolder: '$(Build.ArtifactStagingDirectory)/terraform'
-
-#   - task: CopyFiles@2
-#     displayName: 'Copy Ansible files to artifacts'
-#     inputs:
-#       SourceFolder: ansible
-#       TargetFolder: '$(Build.ArtifactStagingDirectory)/ansible'
-
-#   - task: CopyFiles@2
-#     displayName: 'Copy script files to artifacts'
-#     inputs:
-#       SourceFolder: scripts
-#       TargetFolder: '$(Build.ArtifactStagingDirectory)/scripts'
-
-#   - task: PublishBuildArtifacts@1
-#     inputs:
-#       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-#       artifactName: drop
-
-#   - task: DownloadBuildArtifacts@0
-#     inputs:
-#       buildType: 'current'
-#       downloadType: 'single'
-#       artifactName: 'drop'
-#       downloadPath: '$(System.ArtifactsDirectory)'
-
 - job: PrepareStorageAccount
-
+  pool:
+    vmImage: 'Ubuntu 16.04
   steps:
-  - script: echo "##vso[task.setvariable variable=terraformstoragerg;isOutput=true]$(terraformstoragerg)"
-    name: setResourceGroup
-
-  - task: AzureCLI@1
-    displayName: CreateContainer
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: $(terraformstoragerg)
-      scriptLocation: 'scriptPath' 
-      scriptPath: scripts/createContainer.sh
+  - template: ../steps/createStorage.yaml
+    parameters:
+      serviceConnection: $(serviceConnection)
+      terraformstoragerg: $(terraformstoragerg)
+      location: $(location)
 
   # - task: AzureCLI@1
   #   displayName: GetContainerKey
@@ -93,24 +58,24 @@ jobs:
 #       sshPublicKey: $(SSH_PUB_KEY)
 #       sshKeySecureFile: 'azure'
 
-- job: Terraform
-  dependsOn: PrepareStorageAccount
-  pool:
-    vmImage: 'ubuntu-16.04'
-  variables:
-    terraformstoragerg: $[dependencies.PrepareStorageAccount.outputs['setResourceGroup.terraformstoragerg']]
-    terraformstorageaccount: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.terraformstorageaccount']]
-    storagekey: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.storagekey']]
+# - job: Terraform
+#   dependsOn: PrepareStorageAccount
+#   pool:
+#     vmImage: 'ubuntu-16.04'
+#   variables:
+#     terraformstoragerg: $[dependencies.PrepareStorageAccount.outputs['setResourceGroup.terraformstoragerg']]
+#     terraformstorageaccount: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.terraformstorageaccount']]
+#     storagekey: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.storagekey']]
 
-  steps:
-  - script: echo $(terraformstoragerg) $(terraformstorageaccount) $(storagekey)
-  - task: AzureCLI@1
-    displayName: InitialiseTerraform
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: '$(terraformstorageaccount) $(storagekey)'
-      scriptLocation: 'scriptPath'
-      scriptPath: scripts/init.sh
+#   steps:
+#   - script: echo $(terraformstoragerg) $(terraformstorageaccount) $(storagekey)
+#   - task: AzureCLI@1
+#     displayName: InitialiseTerraform
+#     inputs:
+#       azureSubscription: $(serviceConnection)
+#       arguments: '$(terraformstorageaccount) $(storagekey)'
+#       scriptLocation: 'scriptPath'
+#       scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
