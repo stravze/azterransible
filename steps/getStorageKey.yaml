@@ -16,3 +16,6 @@ steps:
    STORAGEKEY=$(az storage account keys list --resource-group ${{ parameters.terraformstorageRG }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
    echo "##vso[task.setvariable variable=storagekey;isOutput=true]$STORAGEKEY"
   displayName: getStorageKey
+
+- script: |
+    echo $storagekey $(storagekey)
