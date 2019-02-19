@@ -15,7 +15,7 @@ steps:
    az storage container create --name terraform --account-name ${{ parameters.terraformstorageaccount }}
    STORAGEKEY=$(az storage account keys list --resource-group ${{ parameters.terraformstorageRG }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
    KEY=$STORAGEKEY
-   echo "##vso[task.setvariable variable=storagekey;isOutput=true]$KEY"
+   echo "##vso[task.setvariable variable=storagekey;isOutput=true,isSecret=true]$KEY"
   displayName: getStorageKey
 
 - script: |
