@@ -11,7 +11,6 @@ variables:
   serviceConnection: 'sp-conn'
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'rdoperftesttf'
-  location: 'uksouth'
   securefileName: 'github'
 
 jobs:
@@ -33,35 +32,34 @@ jobs:
       serviceConnection: $(serviceConnection)
       terraformstoragerg: $(terraformstoragerg)
       terraformstorageaccount: $(terraformstorageaccount)
-      location: $(location)
 
-- job: InstallSSHkey 
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  dependsOn: ReadKeyVault
-  variables:
-    sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
-  steps:
-  - template: ../steps/installSSHkey.yaml
-    parameters:
-      securefileName: $(securefileName)
-      variables:
-        sshPubKey: $(sshPubKey)
+# - job: InstallSSHkey 
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   dependsOn: ReadKeyVault
+#   variables:
+#     sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
+#   steps:
+#   - template: ../steps/installSSHkey.yaml
+#     parameters:
+#       securefileName: $(securefileName)
+#       variables:
+#         sshPubKey: $(sshPubKey)
 
-- job: Terraform
-  dependsOn: PrepareStorageAccount
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
-  steps:
-  - task: AzureCLI@1
-    displayName: InitialiseTerraform
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: '$(terraformstorageaccount) $(storagekey)'
-      scriptLocation: 'scriptPath'
-      scriptPath: scripts/init.sh
+# - job: Terraform
+#   dependsOn: PrepareStorageAccount
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   variables:
+#     storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
+#   steps:
+#   - task: AzureCLI@1
+#     displayName: InitialiseTerraform
+#     inputs:
+#       azureSubscription: $(serviceConnection)
+#       arguments: '$(terraformstorageaccount) $(storagekey)'
+#       scriptLocation: 'scriptPath'
+#       scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
