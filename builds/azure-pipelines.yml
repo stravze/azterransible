@@ -46,15 +46,15 @@ jobs:
 #       variables:
 #         sshPubKey: $(sshPubKey)
 
-- job: Terraform
-  dependsOn: PrepareStorageAccount
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
-  steps:
-  - script: |
-      echo $storagekey $(storagekey)
+# - job: Terraform
+#   dependsOn: PrepareStorageAccount
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   variables:
+#     storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
+#   steps:
+#   - script: |
+#       echo $storagekey $(storagekey)
 #   - task: AzureCLI@1
 #     displayName: InitialiseTerraform
 #     inputs:
