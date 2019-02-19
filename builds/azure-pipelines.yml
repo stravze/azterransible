@@ -35,7 +35,6 @@ jobs:
       terraformstorageaccount: $(terraformstorageaccount)
       location: $(location)
 
-
 - job: InstallSSHkey 
   pool:
     vmImage: 'Ubuntu-16.04'
@@ -49,24 +48,20 @@ jobs:
       variables:
         sshPubKey: $(sshPubKey)
 
-# - job: Terraform
-#   dependsOn: PrepareStorageAccount
-#   pool:
-#     vmImage: 'ubuntu-16.04'
-#   variables:
-#     terraformstoragerg: $[dependencies.PrepareStorageAccount.outputs['setResourceGroup.terraformstoragerg']]
-#     terraformstorageaccount: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.terraformstorageaccount']]
-#     storagekey: $[dependencies.PrepareStorageAccount.outputs['CreateContainer.storagekey']]
-
-#   steps:
-#   - script: echo $(terraformstoragerg) $(terraformstorageaccount) $(storagekey)
-#   - task: AzureCLI@1
-#     displayName: InitialiseTerraform
-#     inputs:
-#       azureSubscription: $(serviceConnection)
-#       arguments: '$(terraformstorageaccount) $(storagekey)'
-#       scriptLocation: 'scriptPath'
-#       scriptPath: scripts/init.sh
+- job: Terraform
+  dependsOn: PrepareStorageAccount
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+    storagekey: $[dependencies.PrepareStorageAccount.outputs['prepareContainer.storagekey']]
+  steps:
+  - task: AzureCLI@1
+    displayName: InitialiseTerraform
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: '$(terraformstorageaccount) $(storagekey)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
