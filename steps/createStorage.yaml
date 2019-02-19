@@ -10,7 +10,7 @@ steps:
     arguments: ${{ parameters.terraformstoragerg }} ${{ parameters.location }}
     scriptLocation: 'inlineScript'
     inlineScript: |
-      STORAGEACCT=$(az storage account create --resource-group $1 --name "rdoperftesttf$RANDOM" --location $2 --sku Standard_LRS | tr -d '"')
+      STORAGEACCT=$(az storage account create --resource-group $1 --name "rdoperftesttf" --location $2 --sku Standard_LRS | tr -d '"')
       STORAGECONT=$(az storage container create --name "terraform" --account-name $STORAGEACCT | tr -d '"')
       STORAGEKEY=$(az storage account keys list --resource-group "rdo-perftest-poc" --account-name $STORAGEACCT --query "[0].value" | tr -d '"')
 
