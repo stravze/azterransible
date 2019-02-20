@@ -122,10 +122,10 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
   os_profile_linux_config {
     disable_password_authentication = false
     
-    #ssh_keys {
-    #  path          = "/home/${var.username}/.ssh/authorized_keys"
-    #  key_data      = "${var.ssh_key}"
-    # }
+    ssh_keys {
+     path          = "/home/${var.username}/.ssh/authorized_keys"
+     key_data      = "${var.ssh_key}"
+    }
   }
 
   provisioner "remote-exec" {
