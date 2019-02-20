@@ -43,10 +43,7 @@ jobs:
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
     subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
-    myTestVar: "Hello World"
   steps:
-  - script: echo "##vso[task.setvariable variable=myTestVar;isOutput=true]$(myTestVar)"
-    name: testVar
   - template: ../steps/getStorageKey.yaml
     parameters:
       serviceConnection: $(serviceConnection)
@@ -79,13 +76,9 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   variables:
-    testVar: $[dependencies.PrepareStorage.outputs['testVar.myTestVar']]
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
-    storagekey2: $[dependencies.PrepareStorage.outputs['testKey.storagekey2']]
   steps:
-  - script: "echo myTestVar $(testVar)"
   - script: "echo storagekey $(storagekey)"
-  - script: "echo storagekey2 $(storagekey2)"
 
   # - task: AzureCLI@1
   #   displayName: InitialiseTerraform
