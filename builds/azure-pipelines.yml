@@ -79,14 +79,13 @@ jobs:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
   steps:
   - script: "echo storagekey $(storagekey)"
-
-  # - task: AzureCLI@1
-  #   displayName: InitialiseTerraform
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: $(storagekey)
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/init.sh
+  - task: AzureCLI@1
+    displayName: InitialiseTerraform
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: $(storagekey)
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
