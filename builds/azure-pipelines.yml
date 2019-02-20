@@ -72,9 +72,7 @@ jobs:
   dependsOn:
   - ReadKeyVault
   - PrepareStorage
-  condition: 
-  - succeeded('PrepareStorage')
-  - succeeded('ReadKeyVault')
+  condition: succeeded('PrepareStorage' 'InstallSSHkey')
   pool:
     vmImage: 'Ubuntu-16.04'
   variables:
