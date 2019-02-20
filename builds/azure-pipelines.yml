@@ -83,7 +83,7 @@ jobs:
     displayName: InitialiseTerraform
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(storagekey)
+      arguments: $(terraformstorageaccount) $(storagekey)
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
 
