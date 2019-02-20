@@ -12,8 +12,8 @@ steps:
     inlineScript: |
       az storage account create --resource-group $2 --name $1 --location uksouth --sku Standard_LRS
       az storage container create --name terraform --account-name $1
-      STORAGEKEY=$(az storage account keys list --resource-group $2 --account-name $1 --query "[0].value" | tr -d '"')
-      echo "##vso[task.setvariable variable=storagekey;isOutput=true]$STORAGEKEY"
+      KEY=$(az storage account keys list --resource-group $2 --account-name $1 --query "[0].value" | tr -d '"')
+      echo "##vso[task.setvariable variable=storagekey;isOutput=true]$KEY"
     name: setStorageContainer
       
 - script: |
