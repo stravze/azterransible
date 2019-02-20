@@ -77,13 +77,13 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   variables:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
-    ssh_key: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
+    sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
   steps:
   - task: AzureCLI@1
     displayName: TerraformInit
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey)
+      arguments: $(terraformstorageaccount) $(storagekey) $(sshPubKey)
       scriptLocation: 'scriptPath'
       scriptPath: scripts/test.sh
 
