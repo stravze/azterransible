@@ -16,7 +16,7 @@ variables:
 jobs:
 - job: ReadKeyVault
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'vs2017-win2016'
   steps:
   - template: ../steps/keyvault-read.yaml
     parameters:
@@ -36,7 +36,7 @@ jobs:
 
 - job: PrepareStorage
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'vs2017-win2016'
   dependsOn: ReadKeyVault
   variables:
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
@@ -73,7 +73,7 @@ jobs:
   - ReadKeyVault
   - PrepareStorage
   pool:
-    vmImage: 'Ubuntu-16.04'
+    vmImage: 'vs2017-win2016'
   variables:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
   steps:
