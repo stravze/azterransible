@@ -17,4 +17,4 @@ steps:
     name: setStorageContainer
       
 - script: |
-    echo "$(storagekey)"
+    echo $(storagekey)
