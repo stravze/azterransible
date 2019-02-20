@@ -55,40 +55,44 @@ jobs:
         clientSecret: $(clientSecret)
         subscriptionId: $(subscriptionId)
 
-# - job: InstallSSHkey 
-#   pool:
-#     vmImage: 'Ubuntu-16.04'
-#   dependsOn: ReadKeyVault
-#   variables:
-#     sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
-#   steps:
-#   - template: ../steps/installSSHkey.yaml
-#     parameters:
-#       securefileName: $(securefileName)
-#       variables:
-#         sshPubKey: $(sshPubKey)
+- job: InstallSSHkey 
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  dependsOn: ReadKeyVault
+  variables:
+    sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
+  steps:
+  - template: ../steps/installSSHkey.yaml
+    parameters:
+      securefileName: $(securefileName)
+      variables:
+        sshPubKey: $(sshPubKey)
 
 - job: Terraform
   dependsOn:
   - ReadKeyVault
   - PrepareStorage
-  condition: succeeded('PrepareStorage')
+  condition: 
+  - succeeded('PrepareStorage')
+  - succeeded('ReadKeyVault')
   pool:
     vmImage: 'Ubuntu-16.04'
   variables:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
+    ssh_key: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_PUB_KEY']]
   steps:
-  - script: "echo storagekey $(storagekey)"
   - task: AzureCLI@1
-    displayName: InitialiseTerraform
+    displayName: TerraformInit
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey)
+      arguments: $(terraformstorageaccount) $(storagekey) $(ssh_key)
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
 
-
-#   - task: ShellScript@2
-#     displayName: 'Apply Terraform'
-#     inputs:
-#       scriptPath: scripts/apply.sh
+  # - task: AzureCLI@1
+  #   displayName: TerraformApply
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments:
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/apply.sh
