@@ -16,7 +16,7 @@ variables:
 jobs:
 - job: ReadKeyVault
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'Ubuntu-16.04'
   steps:
   - template: ../steps/keyvault-read.yaml
     parameters:
@@ -36,14 +36,17 @@ jobs:
 
 - job: PrepareStorage
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'Ubuntu-16.04'
   dependsOn: ReadKeyVault
   variables:
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
     subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
+    myTestVar: "Hello World"
   steps:
+  - script: echo "##vso[task.setvariable variable=myTestVar;isOutput=true]myTestVar"
+    name: testVar
   - template: ../steps/getStorageKey.yaml
     parameters:
       serviceConnection: $(serviceConnection)
@@ -72,18 +75,23 @@ jobs:
   dependsOn:
   - ReadKeyVault
   - PrepareStorage
+  condition: succeeded('PrepareStorage')
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'Ubuntu-16.04'
   variables:
+    testVar: $[dependencies.PrepareStorage.outputs['testVar.myTestVar']]
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
   steps:
-  - task: AzureCLI@1
-    displayName: InitialiseTerraform
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: $(storagekey)
-      scriptLocation: 'scriptPath'
-      scriptPath: scripts/init.sh
+  - script: "echo myTestVar $(testVar)"
+  - script: "echo storagekey $(storagekey)"
+
+  # - task: AzureCLI@1
+  #   displayName: InitialiseTerraform
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: $(storagekey)
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/init.sh
 
 
 #   - task: ShellScript@2
