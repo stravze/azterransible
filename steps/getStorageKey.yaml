@@ -13,10 +13,13 @@ steps:
    az login --service-principal --username ${{ parameters.variables.clientId }} --password ${{ parameters.variables.clientSecret }} --tenant ${{ parameters.variables.tenantId }}
    az account set --subscription ${{ parameters.variables.subscriptionId }}
    az storage container create --name terraform --account-name ${{ parameters.terraformstorageaccount }}
-   STORAGEKEY=$(az storage account keys list --resource-group ${{ parameters.terraformstorageRG }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
-   KEY=$STORAGEKEY
+   KEY=$(az storage account keys list --resource-group ${{ parameters.terraformstorageRG }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
    echo "##vso[task.setvariable variable=storagekey;isOutput=true,isSecret=true]$KEY"
   displayName: getStorageKey
+  name: getStorageKey
 
 - script: |
-    echo $storagekey $(storagekey)
+    echo "##vso[task.setvariable variable=storagekey2;isOutput=true,isSecret=true]$(storagekey)"
+    echo Variable is: $(storagekey2)
+  name: testKey
+    
