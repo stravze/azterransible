@@ -82,7 +82,7 @@ jobs:
     displayName: TerraformInit
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey) 
+      arguments: $(terraformstorageaccount) $(storagekey)
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
 
@@ -90,7 +90,7 @@ jobs:
     displayName: TerraformPlan
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: '$(sshPubKey)'
+      arguments: $(terraformstorageaccount) $(storagekey) $(sshPubKey)'
       scriptLocation: 'scriptPath'
       scriptPath: scripts/plan.sh
 
