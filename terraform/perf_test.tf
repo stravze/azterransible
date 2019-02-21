@@ -101,12 +101,17 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
   vm_size                      = "Standard_B1s"
   count                        = "${var.perf_test_vm_count}"
 
+#   storage_image_reference {
+#     publisher = "center-for-internet-security-inc"
+#     offer     = "cis-ubuntu-linux-1804-l1"
+#     sku       = "cis-ubuntu1804-l1"
+#     version   = "latest"
+#   }
   storage_image_reference {
-    publisher = "center-for-internet-security-inc"
-    offer     = "cis-ubuntu-linux-1804-l1"
-    sku       = "cis-ubuntu1804-l1"
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
     version   = "latest"
-  }
 
   storage_os_disk {
     name              = "${var.perf_test_vm_name}-${format("%02d",count.index)}-os"    
