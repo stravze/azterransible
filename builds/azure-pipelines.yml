@@ -83,7 +83,7 @@ jobs:
     displayName: TerraformInit
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey) $(sshPubKey)
+      arguments: $(terraformstorageaccount) $(storagekey) "$(sshPubKey)"
       scriptLocation: 'scriptPath'
       scriptPath: scripts/test.sh
 
