@@ -15,7 +15,8 @@ variable "password" {
 }
 variable "ssh_key" {
 }
-
+variable "private_key" {
+}
 
 terraform {
   required_version = ">= 0.11" 
@@ -146,7 +147,7 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
       type        = "ssh"
       user        = "${var.username}"
       # password    = "${var.password}"
-      private_key =  "${var.ssh_key}"
+      private_key =  "${var.private_key}"
       timeout     = "1m"
     }
   }
