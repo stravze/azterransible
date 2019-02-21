@@ -90,7 +90,7 @@ jobs:
     displayName: TerraformPlan
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(terraformstorageaccount) $(storagekey) $(sshPubKey)'
+      arguments: "$(sshPubKey)"
       scriptLocation: 'scriptPath'
       scriptPath: scripts/plan.sh
 
