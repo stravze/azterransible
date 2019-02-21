@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "TERRAFORM INIT"
+echo "TERRAFORM PLAN"
 cd ../terraform 
 
 terraform plan -var ssh_key=$1
