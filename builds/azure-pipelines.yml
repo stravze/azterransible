@@ -68,7 +68,7 @@ jobs:
       variables:
         sshPubKey: $(sshPubKey)
 
-- job: TerraformInit
+- job: Terraform
   dependsOn:
   - PrepareStorage
   - InstallSSHkey
@@ -86,13 +86,13 @@ jobs:
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
 
-  # - task: AzureCLI@1
-  #   displayName: TerraformPlan
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: "$(sshPubKey)"
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/plan.sh
+  - task: AzureCLI@1
+    displayName: TerraformPlan
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: '$(sshPubKey)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/plan.sh
 
   # - task: AzureCLI@1
   #   displayName: TerraformApply
