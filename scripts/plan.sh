@@ -9,4 +9,10 @@ export ARM_TENANT_ID=$4
 export ARM_ACCESS_KEY=$5
 export SSH_PUB_KEY=$6
 
-terraform plan -var ssh_key=$6
+echo $1
+echo $2
+echo $3
+echo $4
+echo $5
+echo $6
+# terraform plan -var ssh_key=$6
