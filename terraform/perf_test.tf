@@ -112,7 +112,8 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
     offer     = "UbuntuServer"
     sku       = "18.04-LTS"
     version   = "latest"
-
+  }
+  
   storage_os_disk {
     name              = "${var.perf_test_vm_name}-${format("%02d",count.index)}-os"    
     caching           = "ReadWrite"
