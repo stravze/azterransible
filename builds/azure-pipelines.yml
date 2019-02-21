@@ -11,7 +11,7 @@ variables:
   serviceConnection: 'sp-conn'
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'rdoperftesttf'
-  securefileName: 'github'
+  securefileName: 'azure'
 
 jobs:
 - job: ReadKeyVault
