@@ -1,1 +1,1 @@
-terraform plan -backend-config=backend.tfvars
+terraform plan -var ssh_key=$1
