@@ -8,10 +8,10 @@ variable "perf_test_vm_count" {
     default = 1
 }
 variable "username" {
-  default = "username"
+  default = "ansible"
 }
 variable "password" {
-  default = "password"
+  default = "WUDH398rgqd137GY"
 }
 variable "ssh_key" {
 }
@@ -139,7 +139,8 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
     connection {
       type        = "ssh"
       user        = "${var.username}"
-      password    = "${var.password}"
+      # password    = "${var.password}"
+      private_key =  "${var.ssh_key}"
       timeout     = "1m"
     }
   }
