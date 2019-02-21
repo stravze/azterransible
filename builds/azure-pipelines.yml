@@ -84,7 +84,7 @@ jobs:
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
   
-  - job: TerraformPlan
+- job: TerraformPlan
   dependsOn:
   - TerraformInit
   variables:
