@@ -85,7 +85,7 @@ jobs:
       azureSubscription: $(serviceConnection)
       arguments: $(terraformstorageaccount) $(storagekey) "$(sshPubKey)"
       scriptLocation: 'scriptPath'
-      scriptPath: scripts/test.sh
+      scriptPath: scripts/init.sh
 
   # - task: AzureCLI@1
   #   displayName: TerraformApply
