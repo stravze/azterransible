@@ -13,6 +13,8 @@ variable "username" {
 variable "password" {
   default = "password"
 }
+variable "ssh_key" {
+}
 
 
 terraform {
