@@ -10,10 +10,10 @@
       keyVaultName: ${{ parameters.keyvaultName }}
       secretsFilter: 'ARM-CLIENT-ID,ARM-CLIENT-SECRET,ARM-SUBSCRIPTION-ID, ARM-TENANT-ID,ARM-SSH-PUB'
   - script: |
-      echo "##vso[task.setvariable variable=ARM_CLIENT_ID;isOutput=true]$(ARM-CLIENT-ID)"
-      echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;isOutput=true]$(ARM-CLIENT-SECRET)"
-      echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID;isOutput=true]$(ARM-SUBSCRIPTION-ID)"      
-      echo "##vso[task.setvariable variable=ARM_TENANT_ID;isOutput=true]$(ARM-TENANT-ID)"
-      echo "##vso[task.setvariable variable=SSH_PUB_KEY;isOutput=true]$(ARM-SSH-PUB)"
+      echo "##vso[task.setvariable variable=ARM_CLIENT_ID;isOutput=true,isSecret=true]$(ARM-CLIENT-ID)"
+      echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;isOutput=true,isSecret=true]$(ARM-CLIENT-SECRET)"
+      echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID;isOutput=true,isSecret=true]$(ARM-SUBSCRIPTION-ID)"      
+      echo "##vso[task.setvariable variable=ARM_TENANT_ID;isOutput=true,isSecret=true]$(ARM-TENANT-ID)"
+      echo "##vso[task.setvariable variable=SSH_PUB_KEY;isOutput=true,isSecret=true]$(ARM-SSH-PUB)"
     displayName: 'Export Keyvault Variables'
     name: exportKeyVault
