@@ -12,8 +12,9 @@ steps:
 - bash: |
    az login --service-principal --username ${{ parameters.variables.clientId }} --password ${{ parameters.variables.clientSecret }} --tenant ${{ parameters.variables.tenantId }}
    az account set --subscription ${{ parameters.variables.subscriptionId }}
+   az storage account create --resource-group ${{ parameters.terraformstoragerg }} --name ${{ parameters.terraformstorageaccount }} --location uksouth --sku Standard_LRS | tr -d '"'
    az storage container create --name terraform --account-name ${{ parameters.terraformstorageaccount }}
-   KEY=$(az storage account keys list --resource-group ${{ parameters.terraformstorageRG }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
+   KEY=$(az storage account keys list --resource-group ${{ parameters.terraformstoragerg }} --account-name ${{ parameters.terraformstorageaccount }} --query "[0].value" | tr -d '"')
    echo "##vso[task.setvariable variable=storagekey;isOutput=true]$KEY"
   displayName: getStorageKey
   name: getStorageKey
