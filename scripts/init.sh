@@ -2,9 +2,11 @@
 echo "TERRAFORM INIT"
 cd ../terraform 
 
-terraform init \
-    -backend-config="storage_account_name=$1" \
-    -backend-config="container_name=terraform" \
-    -backend-config="key=terraform.tfstate" \
-    -backend-config="access_key=$2" 
+export ARM_CLIENT_ID=$1
+export ARM_CLIENT_SECRET=$2
+export ARM_SUBSCRIPTION_ID=$3
+export ARM_TENANT_ID=$4
+export ARM_ACCESS_KEY=$5
+
+terraform init -backend-config=backend.tfvars
     
