@@ -98,6 +98,14 @@ jobs:
       arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
       scriptLocation: 'scriptPath'
       scriptPath: scripts/plan.sh
+  
+  - task: AzureCLI@1
+    displayName: TerraformApply
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/apply.sh
 
   # - task: AzureCLI@1
   #   displayName: TerraformApply
