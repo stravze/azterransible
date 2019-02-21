@@ -91,13 +91,13 @@ jobs:
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
 
-  - task: AzureCLI@1
-    displayName: TerraformPlan
-    inputs:
-      azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
-      scriptLocation: 'scriptPath'
-      scriptPath: scripts/plan.sh
+  # - task: AzureCLI@1
+  #   displayName: TerraformPlan
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/plan.sh
 
   - task: DownloadSecureFile@1
     inputs:
