@@ -76,8 +76,8 @@ jobs:
     inputs:
       secureFile: $(securefileName)
 
-- script: | 
-    cat $(securefileName) 
+  - script: |
+      cat $(securefileName)
 
   # - task: CopyFiles@2
   #   displayName: 'Copy Files to: $(Build.SourcesDirectory)'
