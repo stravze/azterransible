@@ -80,7 +80,7 @@ jobs:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
     # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
-    sshPubKeyFile: $(Build.SourcesDirectory)/$(securefileName)
+    sshPubKeyFile: $(System.DefaultWorkingDirectory)/$(securefileName)
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
@@ -94,10 +94,10 @@ jobs:
       secureFile: $(securefileName)
 
   - task: CopyFiles@2
-    displayName: 'Copy Files to: $(Build.SourcesDirectory)'
+    displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)'
     inputs:
       sourceFolder: $(Agent.TempDirectory)
-      targetFolder: $(Build.SourcesDirectory)
+      targetFolder: $(System.DefaultWorkingDirectory)
 
   - task: AzureCLI@1
     displayName: TerraformInit
@@ -106,6 +106,10 @@ jobs:
       arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey)
       scriptLocation: 'scriptPath'
       scriptPath: scripts/init.sh
+
+  - script: |
+      echo "Checking if file exists"
+      ls $(System.DefaultWorkingDirectory)
 
   # - task: AzureCLI@1
   #   displayName: TerraformPlan
