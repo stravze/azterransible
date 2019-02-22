@@ -67,18 +67,7 @@ jobs:
 #       variables:
 #         sshPubKey: $(sshPubKey)
 
-- job: GetSecureFile
-  steps:
-  - task: DownloadSecureFile@1
-    displayName: 'Download secure file'
-    inputs:
-      secureFile: $(securefileName)
 
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(Build.SourcesDirectory)'
-    inputs:
-      sourceFolder: $(Agent.TempDirectory)
-      targetFolder: $(Build.SourcesDirectory)
 
 
 - job: Terraform
@@ -98,6 +87,18 @@ jobs:
     subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
 
   steps:
+
+  - task: DownloadSecureFile@1
+    displayName: 'Download secure file'
+    inputs:
+      secureFile: $(securefileName)
+
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(Build.SourcesDirectory)'
+    inputs:
+      sourceFolder: $(Agent.TempDirectory)
+      targetFolder: $(Build.SourcesDirectory)
+
   - task: AzureCLI@1
     displayName: TerraformInit
     inputs:
@@ -114,13 +115,17 @@ jobs:
   #     scriptLocation: 'scriptPath'
   #     scriptPath: scripts/plan.sh
   - script: |
-      echo "Build.SourcesDirectory"
+      echo "ls Build.SourcesDirectory"
       ls $(Build.SourcesDirectory)/$(securefileName)
-      echo "______________________"
-      echo "sshPubKeyFile"
+      echo "."
+      echo "."
+      echo "."
+      echo "ls £sshPubKeyFile"
       ls $(sshPubKeyFile)
-      echo "______________________"
-      echo "home/vstswork/1/s/"
+      echo "."
+      echo "."
+      echo "."
+      echo "ls home/vsts/work/1/s/"
       ls /home/vsts/work/1/s/
   # - task: AzureCLI@1
   #   displayName: TerraformApply
