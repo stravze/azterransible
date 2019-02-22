@@ -79,7 +79,7 @@ jobs:
   variables:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
-    # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
+    sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
     sshPubKeyFile: $(System.DefaultWorkingDirectory)/$(securefileName)
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
@@ -123,7 +123,7 @@ jobs:
     displayName: TerraformApply
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)"
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)" "$(sshPrivKey)"
       scriptLocation: 'scriptPath'
       scriptPath: scripts/apply.sh
 
