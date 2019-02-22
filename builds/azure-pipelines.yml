@@ -80,7 +80,7 @@ jobs:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
     # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
-    sshPubKeyFile: $(System.DefaultWorkingDirectory)/$(securefileName)
+    sshPubKeyFile: $(System.DefaultWorkingDirectory)\$(securefileName)
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
