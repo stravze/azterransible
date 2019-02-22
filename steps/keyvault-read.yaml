@@ -14,7 +14,7 @@
       echo "##vso[task.setvariable variable=ARM_CLIENT_SECRET;isOutput=true]$(ARM-CLIENT-SECRET)"
       echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID;isOutput=true]$(ARM-SUBSCRIPTION-ID)"      
       echo "##vso[task.setvariable variable=ARM_TENANT_ID;isOutput=true]$(ARM-TENANT-ID)"
-      echo "##vso[task.setvariable variable=SSH_KEY_PUB;isOutput=true]$(SSH-KEY-PUB)"
+      echo "##vso[task.setvariable variable=SSH_KEY_PUB;isOutput=true]$(pf102)"
       echo "##vso[task.setvariable variable=SSH_KEY_PRIV;isOutput=true]$(SSH-KEY-PRIV)"
     displayName: 'Export Keyvault Variables'
     name: exportKeyVault
