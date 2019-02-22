@@ -33,27 +33,26 @@ jobs:
 #       terraformstoragerg: $(terraformstoragerg)
 #       terraformstorageaccount: $(terraformstorageaccount)
 
-
-# - job: PrepareStorage
-#   pool:
-#     vmImage: 'Ubuntu-16.04'
-#   dependsOn: ReadKeyVault
-#   variables:
-#     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
-#     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
-#     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
-#     subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
-#   steps:
-#   - template: ../steps/getStorageKey.yaml
-#     parameters:
-#       serviceConnection: $(serviceConnection)
-#       terraformstoragerg: $(terraformstoragerg)
-#       terraformstorageaccount: $(terraformstorageaccount)
-#       variables:
-#         tenantId: $(tenantId)
-#         clientId: $(clientId)
-#         clientSecret: $(clientSecret)
-#         subscriptionId: $(subscriptionId)
+- job: PrepareStorage
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  dependsOn: ReadKeyVault
+  variables:
+    tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
+    clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
+    clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
+    subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
+  steps:
+  - template: ../steps/getStorageKey.yaml
+    parameters:
+      serviceConnection: $(serviceConnection)
+      terraformstoragerg: $(terraformstoragerg)
+      terraformstorageaccount: $(terraformstorageaccount)
+      variables:
+        tenantId: $(tenantId)
+        clientId: $(clientId)
+        clientSecret: $(clientSecret)
+        subscriptionId: $(subscriptionId)
 
 # - job: InstallSSHkey
 #   pool:
@@ -68,16 +67,12 @@ jobs:
 #       variables:
 #         sshPubKey: $(sshPubKey)
 
-
 - job: GetSecureFile
   steps:
   - task: DownloadSecureFile@1
     displayName: 'Download secure file'
     inputs:
       secureFile: $(securefileName)
-
-  - script: |
-      cat $(Agent.TempDirectory)/$(securefileName)
 
   # - task: CopyFiles@2
   #   displayName: 'Copy Files to: $(Build.SourcesDirectory)'
@@ -86,44 +81,45 @@ jobs:
   #     targetFolder: $(Build.SourcesDirectory)
 
 
-# - job: Terraform
-#   dependsOn:
-#   - ReadKeyVault
-#   - PrepareStorage
-#   pool:
-#     vmImage: 'Ubuntu-16.04'
-#   variables:
-#     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
-#     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
-#     # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
-#     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
-#     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
-#     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
-#     subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
+- job: Terraform
+  dependsOn:
+  - ReadKeyVault
+  - PrepareStorage
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+    storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
+    # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
+    # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
+    sshPubKeyFile: $(Agent.TempDirectory)/$(securefileName)
+    tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
+    clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
+    clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
+    subscriptionId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_SUBSCRIPTION_ID']]
 
-#   steps:
-#   - task: AzureCLI@1
-#     displayName: TerraformInit
-#     inputs:
-#       azureSubscription: $(serviceConnection)
-#       arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey)
-#       scriptLocation: 'scriptPath'
-#       scriptPath: scripts/init.sh
+  steps:
+  - task: AzureCLI@1
+    displayName: TerraformInit
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey)
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/init.sh
 
-#   # - task: AzureCLI@1
-#   #   displayName: TerraformPlan
-#   #   inputs:
-#   #     azureSubscription: $(serviceConnection)
-#   #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
-#   #     scriptLocation: 'scriptPath'
-#   #     scriptPath: scripts/plan.sh
+  # - task: AzureCLI@1
+  #   displayName: TerraformPlan
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/plan.sh
 
-#   - task: AzureCLI@1
-#     displayName: TerraformApply
-#     inputs:
-#       azureSubscription: $(serviceConnection)
-#       arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKey)' '$(sshPrivKey)'
-#       scriptLocation: 'scriptPath'
-#       scriptPath: scripts/apply.sh
+  - task: AzureCLI@1
+    displayName: TerraformApply
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKeyFile)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/apply.sh
 
 
