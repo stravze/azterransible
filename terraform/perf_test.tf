@@ -137,20 +137,20 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
     }
   }
 
-  provisioner "remote-exec" {
-    inline = [
-    "sudo apt update && apt dist-upgrade -y",
-    "sudo apt install -y libssl-dev libffi-dev python-dev python-pip",
-    "sudo pip install ansible[azure]"
-    ]
-    connection {
-      type        = "ssh"
-      user        = "${var.username}"
-      # password    = "${var.password}"
-      private_key =  "${var.private_key}"
-      timeout     = "1m"
-    }
-  }
+#   provisioner "remote-exec" {
+#     inline = [
+#     "sudo apt update && apt dist-upgrade -y",
+#     "sudo apt install -y libssl-dev libffi-dev python-dev python-pip",
+#     "sudo pip install ansible[azure]"
+#     ]
+#     connection {
+#       type        = "ssh"
+#       user        = "${var.username}"
+#       # password    = "${var.password}"
+#       private_key =  "${var.private_key}"
+#       timeout     = "1m"
+#     }
+#   }
 
 }
 
