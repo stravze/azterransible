@@ -11,7 +11,8 @@ variables:
   serviceConnection: 'sp-conn'
   terraformstoragerg: 'rdo-perftest-poc'
   terraformstorageaccount: 'rdoperftesttf'
-  securefileName: 'az_rsa.pub'
+  pubkeysecfile: 'az_rsa.pub'
+  privkeysecfile: 'az_rsa'
 
 jobs:
 - job: ReadKeyVault
@@ -91,7 +92,12 @@ jobs:
   - task: DownloadSecureFile@1
     displayName: 'Download secure file'
     inputs:
-      secureFile: $(securefileName)
+      secureFile: $(pubkeysecfile)
+
+  - task: DownloadSecureFile@1
+    displayName: 'Download secure file'
+    inputs:
+      secureFile: $(privkeysecfile)
 
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)'
@@ -123,7 +129,7 @@ jobs:
     displayName: TerraformApply
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)" "$(sshPrivKey)"
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(pubkeysecfile)" "$(System.DefaultWorkingDirectory)/$(privkeysecfile)"
       scriptLocation: 'scriptPath'
       scriptPath: scripts/apply.sh
 
