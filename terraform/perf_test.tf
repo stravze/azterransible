@@ -148,7 +148,7 @@ resource "azurerm_virtual_machine" "perf_test_vm" {
       type        = "ssh"
       user        = "${var.username}"
       # password    = "${var.password}"
-      private_key =  "${var.private_key}"
+      private_key =  "${file("${var.private_key}")}"
       timeout     = "1m"
     }
   }
