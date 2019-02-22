@@ -103,7 +103,7 @@ jobs:
     displayName: TerraformApply
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKey)'
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKey)' '$(sshPrivKey)'
       scriptLocation: 'scriptPath'
       scriptPath: scripts/apply.sh
 
