@@ -99,15 +99,11 @@ jobs:
   #     scriptLocation: 'scriptPath'
   #     scriptPath: scripts/plan.sh
 
-  - task: DownloadSecureFile@1
-    inputs:
-      secureFile: $(securefileName)
-  
   - task: AzureCLI@1
     displayName: TerraformApply
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)" "$(sshPrivKey)"
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKey)'
       scriptLocation: 'scriptPath'
       scriptPath: scripts/apply.sh
 
