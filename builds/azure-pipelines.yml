@@ -111,20 +111,20 @@ jobs:
       echo "Checking if file exists"
       ls $(System.DefaultWorkingDirectory)
 
+  # - task: AzureCLI@1
+  #   displayName: TerraformPlan
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)"
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/plan.sh
+
   - task: AzureCLI@1
-    displayName: TerraformPlan
+    displayName: TerraformApply
     inputs:
       azureSubscription: $(serviceConnection)
       arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)"
       scriptLocation: 'scriptPath'
-      scriptPath: scripts/plan.sh
-
-  # - task: AzureCLI@1
-  #   displayName: TerraformApply
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) 
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/apply.sh
+      scriptPath: scripts/apply.sh
 
 
