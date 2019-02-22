@@ -80,7 +80,7 @@ jobs:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
     # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
-    sshPubKeyFile: $(System.DefaultWorkingDirectory)\$(securefileName)
+    sshPubKeyFile: $(System.DefaultWorkingDirectory)/$(securefileName)
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
@@ -111,20 +111,20 @@ jobs:
       echo "Checking if file exists"
       ls $(System.DefaultWorkingDirectory)
 
-  # - task: AzureCLI@1
-  #   displayName: TerraformPlan
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/plan.sh
-
   - task: AzureCLI@1
-    displayName: TerraformApply
+    displayName: TerraformPlan
     inputs:
       azureSubscription: $(serviceConnection)
-      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKeyFile)'
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(System.DefaultWorkingDirectory)/$(securefileName)"
       scriptLocation: 'scriptPath'
-      scriptPath: scripts/apply.sh
+      scriptPath: scripts/plan.sh
+
+  # - task: AzureCLI@1
+  #   displayName: TerraformApply
+  #   inputs:
+  #     azureSubscription: $(serviceConnection)
+  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) 
+  #     scriptLocation: 'scriptPath'
+  #     scriptPath: scripts/apply.sh
 
 
