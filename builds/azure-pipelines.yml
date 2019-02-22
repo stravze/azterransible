@@ -114,25 +114,13 @@ jobs:
   #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) "$(sshPubKey)"
   #     scriptLocation: 'scriptPath'
   #     scriptPath: scripts/plan.sh
-  - script: |
-      echo "ls Build.SourcesDirectory"
-      ls $(Build.SourcesDirectory)/$(securefileName)
-      echo "."
-      echo "."
-      echo "."
-      echo "ls £sshPubKeyFile"
-      ls $(sshPubKeyFile)
-      echo "."
-      echo "."
-      echo "."
-      echo "ls home/vsts/work/1/s/"
-      ls /home/vsts/work/1/s/
-  # - task: AzureCLI@1
-  #   displayName: TerraformApply
-  #   inputs:
-  #     azureSubscription: $(serviceConnection)
-  #     arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKeyFile)'
-  #     scriptLocation: 'scriptPath'
-  #     scriptPath: scripts/apply.sh
+
+  - task: AzureCLI@1
+    displayName: TerraformApply
+    inputs:
+      azureSubscription: $(serviceConnection)
+      arguments: $(clientId) $(clientSecret) $(subscriptionId) $(tenantId) $(storagekey) '$(sshPubKeyFile)'
+      scriptLocation: 'scriptPath'
+      scriptPath: scripts/apply.sh
 
 
