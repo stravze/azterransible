@@ -74,11 +74,11 @@ jobs:
     inputs:
       secureFile: $(securefileName)
 
-  # - task: CopyFiles@2
-  #   displayName: 'Copy Files to: $(Build.SourcesDirectory)'
-  #   inputs:
-  #     sourceFolder: $(Agent.TempDirectory)
-  #     targetFolder: $(Build.SourcesDirectory)
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(Build.SourcesDirectory)'
+    inputs:
+      sourceFolder: $(Agent.TempDirectory)
+      targetFolder: $(Build.SourcesDirectory)
 
 
 - job: Terraform
@@ -91,7 +91,7 @@ jobs:
     storagekey: $[dependencies.PrepareStorage.outputs['getStorageKey.storagekey']]
     # sshPubKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PUB']]
     # sshPrivKey: $[dependencies.ReadKeyVault.outputs['exportKeyVault.SSH_KEY_PRIV']]
-    sshPubKeyFile: $(Agent.TempDirectory)/$(securefileName)
+    sshPubKeyFile: $(Build.SourcesDirectory)/$(securefileName)
     tenantId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_TENANT_ID']]
     clientId: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_ID']]
     clientSecret: $[dependencies.ReadKeyVault.outputs['exportKeyVault.ARM_CLIENT_SECRET']]
